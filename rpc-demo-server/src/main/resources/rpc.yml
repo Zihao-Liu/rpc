@@ -1,0 +1,3 @@
+rpc:
+  server:
+    enabled: true
