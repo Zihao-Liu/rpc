@@ -1,17 +1,21 @@
 package com.lzh.rpc.server;
 
 import com.lzh.rpc.core.utils.GsonUtil;
+import com.lzh.rpc.server.exporter.ServerPostProcessor;
+import com.lzh.rpc.server.factory.BaseServerFactory;
+import com.lzh.rpc.server.factory.ServerFactory;
+import com.lzh.rpc.server.factory.SpringServerFactory;
 import com.lzh.rpc.server.properties.ServerProperties;
 import com.lzh.rpc.server.properties.YmlPropertySourceFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Properties;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Liu Zihao <liuzihaolzh@126.com>
@@ -33,5 +37,20 @@ public class ServerAutoConfiguration {
     @PostConstruct
     private void post() {
         log.info("server properties: {}", GsonUtil.toJson(serverProperties));
+    }
+
+    @Primary
+    @Bean(name = "springServerFactory")
+    @ConditionalOnMissingBean(ServerFactory.class)
+    @ConditionalOnProperty(prefix = "rpc.server", name = "enabled", havingValue = "true")
+    public SpringServerFactory springServerFactory() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return BaseServerFactory.init(SpringServerFactory.class, serverProperties);
+    }
+
+    @Bean(name = "serverPostProcessor")
+    @DependsOn({"springServerFactory"})
+    @ConditionalOnProperty(prefix = "rpc.server", name = "enabled", havingValue = "true")
+    public ServerPostProcessor serverPostProcessor() {
+        return new ServerPostProcessor();
     }
 }

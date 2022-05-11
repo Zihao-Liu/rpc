@@ -1,11 +1,8 @@
 package com.lzh.rpc.demo.server;
 
-import com.lzh.rpc.server.properties.ServerProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import javax.annotation.Resource;
 
 /**
  * @author Liu Zihao <liuzihaolzh@126.com>
