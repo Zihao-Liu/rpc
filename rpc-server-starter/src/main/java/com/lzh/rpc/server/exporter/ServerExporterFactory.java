@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 @Slf4j
 public class ServerExporterFactory {
-    public static final Map<String, RpcServiceMeta> META_MAP = Maps.newConcurrentMap();
+    private static final Map<String, RpcServiceMeta> META_MAP = Maps.newConcurrentMap();
 
     public static void putService(RpcServiceMeta meta) {
         log.info("put rpc service: {}", meta.toString());
@@ -26,5 +26,9 @@ public class ServerExporterFactory {
             }
             return meta;
         });
+    }
+
+    public static RpcServiceMeta find(String name) {
+        return META_MAP.get(name);
     }
 }

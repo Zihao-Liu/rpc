@@ -1,6 +1,7 @@
 package com.lzh.rpc.server.properties;
 
 import com.lzh.rpc.core.constant.RpcConstant;
+import com.lzh.rpc.core.utils.RunTimeUtil;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -20,4 +21,8 @@ public class ServerProperties {
      * Server启动端口号，端口号为-1表示自动扫描可用端口号
      */
     private int port = -1;
+    /**
+     * 服务线程数量
+     */
+    private int workers = RunTimeUtil.processors() * 2;
 }

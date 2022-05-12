@@ -5,6 +5,8 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.DefaultPropertySourceFactory;
 import org.springframework.core.io.support.EncodedResource;
 
+import javax.annotation.Nullable;
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +20,7 @@ public class YmlPropertySourceFactory extends DefaultPropertySourceFactory {
     private static final String YML_SUFFIX = ".yml";
 
     @Override
-    public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException {
+    public PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource) throws IOException {
         File file = resource.getResource().getFile();
         if (!file.exists()) {
             return super.createPropertySource(name, resource);
@@ -26,7 +28,8 @@ public class YmlPropertySourceFactory extends DefaultPropertySourceFactory {
         if (file.getName().lastIndexOf(YML_SUFFIX) != file.getName().length() - YML_SUFFIX.length()) {
             return super.createPropertySource(name, resource);
         }
-        List<PropertySource<?>> sources = new YamlPropertySourceLoader().load(resource.getResource().getFilename(), resource.getResource());
+        List<PropertySource<?>> sources = new YamlPropertySourceLoader()
+                .load(resource.getResource().getFilename(), resource.getResource());
         return sources.get(0);
     }
 }

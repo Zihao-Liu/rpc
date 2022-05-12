@@ -26,4 +26,6 @@ public @interface RpcService {
      * @return 实现的服务类型
      */
     Class<?> type();
+
+    long timeout() default 5000L;
 }

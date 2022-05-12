@@ -10,5 +10,5 @@ import com.lzh.rpc.server.properties.ServerProperties;
 public interface ServerFactory {
     ServerProperties getProperties();
 
-    void start();
+    void start() throws InterruptedException;
 }

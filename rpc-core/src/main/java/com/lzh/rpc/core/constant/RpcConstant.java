@@ -12,4 +12,6 @@ public final class RpcConstant {
 
     public static final String SERVER_PROPERTY_PREFIX = "rpc.server";
     public static final int SERVER_PORT = 20080;
+
+    public static final String HEART_BEAT_ID = "rpc-heart-beat";
 }
